@@ -1,0 +1,264 @@
+﻿<Window x:Class="Windows_Calculator.ProgrammerCalculator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ProgrammerCalculator" Height="570" Width="421" Background="#FF171616">
+
+    <Grid Background="#FF171616" Margin="0,0,0,-46">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
+        <!-- Title Bar -->
+        <Grid Height="30" VerticalAlignment="Top" Background="#FF171616">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
+        </Grid>
+
+        <Grid Height="40" VerticalAlignment="Top" Margin="0,2,0,0" Background="#FF171616">
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,10,0">
+                <!-- Menu Icon -->
+                <Button Name="MenuButton" Click="MenuButton_Click" Background="Transparent" BorderThickness="0">
+                    <TextBlock Text="≡" FontSize="25" VerticalAlignment="Center" Margin="5" Foreground="White"/>
+                </Button>
+
+                <!-- Standard Text -->
+                <TextBlock Name="SelectedModeText" Text="Programmer" FontSize="20" FontWeight="Bold"
+                        VerticalAlignment="Center" Margin="5" Foreground="White"/>
+            </StackPanel>
+
+            <!-- Refresh Button Aligned to Right -->
+            <Button Name="HistoryButton" Width="30" Height="30" FontSize="20" Background="Transparent" 
+             BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,10,0" Click="History_Click">
+                <TextBlock Text="⟳" Foreground="White"/>
+            </Button>
+
+        </Grid>
+
+        <ListBox Name="HistoryList" Margin="10,28,10,-128" Height="100" Background="#FF171616" Foreground="White" Grid.Row="1"/>
+
+        <StackPanel Name="MenuPanel" Background="#FF171616" Width="200" Height="300"
+             VerticalAlignment="Top"
+                 HorizontalAlignment="Left" Margin="0,70,0,0" Visibility="Collapsed"
+             Panel.ZIndex="9999">
+            <!-- Ensure Menu is on Top -->
+            <ListView Name="MenuList" Background="Transparent" BorderThickness="0"
+               Foreground="White" SelectionMode="Single" SelectionChanged="MenuList_SelectionChanged">
+                <ListViewItem Background="#222222" Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🖩" FontSize="18" Margin="5"/>
+                        <TextBlock Text="Standard" FontSize="18"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Background="#222222" Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🧪" FontSize="18" Margin="5"/>
+                        <TextBlock Text="Scientific" FontSize="18"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Background="#222222" Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📈" FontSize="18" Margin="5"/>
+                        <TextBlock Text="Graphing" FontSize="18"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Background="#222222" Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🖥" FontSize="18" Margin="5"/>
+                        <TextBlock Text="Programmer" FontSize="18"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Background="#222222" Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📅" FontSize="18" Margin="5"/>
+                        <TextBlock Text="Date Calculation" FontSize="18"/>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </StackPanel>
+
+
+        <TextBox Name="Display" HorizontalAlignment="Left" Height="40" Margin="150,60,0,0"
+        TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="271"
+        Background="#FF171616" Foreground="White"
+        TextAlignment="Right" FontSize="32" BorderThickness="0" IsReadOnly="True" Padding="10,0,50,0"/>
+
+        <Grid Height="73" VerticalAlignment="Top" Margin="-10,42,160,0" Background="#FF171616">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="10,0">
+                <!-- HEX Selection -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                    <RadioButton x:Name="HexRadio" GroupName="NumberSystem" Foreground="White" VerticalAlignment="Center" FontSize="14" MinWidth="50" Checked="OnNumberSystemChanged">HEX</RadioButton>
+                    <TextBlock x:Name="HexValue" Text="0" Foreground="White" FontSize="14" Width="50" TextAlignment="Right"/>
+                </StackPanel>
+
+                <!-- DEC Selection -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                    <RadioButton x:Name="DecRadio" GroupName="NumberSystem" Foreground="White" VerticalAlignment="Center" FontSize="14" MinWidth="50" IsChecked="True" Checked="OnNumberSystemChanged">DEC</RadioButton>
+                    <TextBlock x:Name="DecValue" Text="0" Foreground="White" FontSize="14" Width="50" TextAlignment="Right"/>
+                </StackPanel>
+
+                <!-- OCT Selection -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                    <RadioButton x:Name="OctRadio" GroupName="NumberSystem" Foreground="White" VerticalAlignment="Center" FontSize="14" MinWidth="50" Checked="OnNumberSystemChanged">OCT</RadioButton>
+                    <TextBlock x:Name="OctValue" Text="0" Foreground="White" VerticalAlignment="Center" FontSize="14" Width="50" TextAlignment="Right"/>
+                </StackPanel>
+
+                <!-- BIN Selection -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                    <RadioButton x:Name="BinRadio" GroupName="NumberSystem" Foreground="White" VerticalAlignment="Center" FontSize="14" MinWidth="50" Checked="OnNumberSystemChanged">BIN</RadioButton>
+                    <TextBlock x:Name="BinValue" Text="0" Foreground="White" VerticalAlignment="Center" FontSize="14" Width="50" TextAlignment="Right"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+
+
+        <!-- Memory Buttons (Moved Higher) -->
+        <Grid Height="31" VerticalAlignment="Top" Margin="0,115,0,0" Background="#FF171616">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,-10,0" Height="30">
+                <!-- Icon Buttons with Design Matching Delete (⌫) Style -->
+                <Button Width="40" Height="30" Background="Transparent" BorderThickness="0" Margin="5,0">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="⁝⁝⁝" FontSize="16" Foreground="White" TextAlignment="Center" Width="19"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Width="40" Height="39" Background="Transparent" BorderThickness="0" Margin="30,0">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="⠿" FontSize="16" Foreground="White" TextAlignment="Center" Width="16" Height="26"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- BYTE Label -->
+                <TextBlock Text="BYTE" Foreground="White" VerticalAlignment="Center" Margin="50,0" FontSize="14"/>
+
+                <!-- Memory Store Button -->
+                <Button Content="MS" Width="45" Height="30" FontSize="14" Foreground="White" Background="Transparent" BorderThickness="0" Click="MemoryStore_Click" Margin="5,0"/>
+
+                <!-- Memory Dropdown Button -->
+                <Grid>
+                    <Button Content="Mv" Width="45" Height="30" FontSize="14" Foreground="White" Background="Transparent" BorderThickness="0" Click="ToggleMemoryDropdown" Margin="10,0"/>
+                    <Popup x:Name="MemoryPopup" Placement="Bottom" IsOpen="False">
+                        <StackPanel Background="#FF171616" Width="100">
+                            <Button Content="MC" Foreground="White" Background="Transparent" Click="MemoryClear_Click" Margin="5,0"/>
+                            <Button Content="MR" Foreground="White" Background="Transparent" Click="MemoryRecall_Click" Margin="5,0"/>
+                            <Button Content="M+" Foreground="White" Background="Transparent" Click="MemoryAdd_Click" Margin="5,0"/>
+                            <Button Content="M-" Foreground="White" Background="Transparent" Click="MemorySubtract_Click" Margin="5,0"/>
+                        </StackPanel>
+                    </Popup>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+
+        <!-- Bitwise & Bit Shift Menus (Moved Higher) -->
+        <Grid Height="40" VerticalAlignment="Top" Margin="-10,160,10,0" Background="#FF171616">
+            <!-- Bitwise Menu (Smaller & Higher) -->
+            <ComboBox Name="BitwiseMenu" Width="80" Height="30" FontSize="12"
+              Foreground="Black" Background="White"  HorizontalAlignment="Left" Margin="27,-12,0,22" >
+                <ComboBoxItem Content="AND"/>
+                <ComboBoxItem Content="OR"/>
+                <ComboBoxItem Content="NOT"/>
+                <ComboBoxItem Content="NAND"/>
+                <ComboBoxItem Content="NOR"/>
+                <ComboBoxItem Content="XOR"/>
+            </ComboBox>
+
+            <!-- Bit Shift Menu (Smaller & Higher) -->
+            <ComboBox Name="BitShiftMenu" Width="80" Height="30" FontSize="12"
+              Foreground="Black" Background="White" HorizontalAlignment="Left" Margin="112,-12,0,22">
+                <ComboBoxItem Content="Arithmetic Shift"/>
+                <ComboBoxItem Content="Logical Shift"/>
+                <ComboBoxItem Content="Rotate Circular Shift"/>
+                <ComboBoxItem Content="Rotate Through Carry Circular Shift"/>
+            </ComboBox>
+        </Grid>
+
+        <Grid Margin="10,180,10,51">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <!-- Added missing column -->
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="Margin" Value="1"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    <Setter Property="Width" Value="70"/>
+                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="Background" Value="DarkGray"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+
+            <!-- First Row: Hex Row Labels -->
+            <Button x:Name="A_Button" Content="A" Grid.Row="0" Grid.Column="0" Background="Black" Click="Number_Click"/>
+            <Button Content="&#x226A;" Grid.Row="0" Grid.Column="1" Background="Gray"/>
+            <Button Content="&#x226B;" Grid.Row="0" Grid.Column="2" Background="Gray"/>
+            <Button Content="C" Grid.Row="0" Grid.Column="3" Background="Gray" Click="Clear_Click"/>
+            <Button Content="⌫" Grid.Row="0" Grid.Column="4" Background="Gray" Click="Backspace_Click"/>
+
+            <!-- Second Row: More Hex Labels and Parentheses -->
+            <Button x:Name="B_Button" Content="B" Grid.Row="1" Grid.Column="0" Background="Black"  Click="Number_Click"/>
+            <Button Content="(" Grid.Row="1" Grid.Column="1" Background="Gray" Click="Parentheses_Click"/>
+            <Button Content=")" Grid.Row="1" Grid.Column="2" Background="Gray" Click="Parentheses_Click"/>
+            <Button Content="%" Grid.Row="1" Grid.Column="3" Background="Gray" Click="Percent_Click"/>
+            <Button Content="÷" Grid.Row="1"  Grid.Column="4" Background="Orange" Click="Operator_Click"/>
+
+            <!-- Third Row: Numbers 7-9 -->
+            <Button x:Name="C_Button" Content="C" Grid.Row="2" Grid.Column="0" Background="Black"  Click="Number_Click"/>
+            <!-- Renamed to avoid duplication -->
+            <Button x:Name="Num7_Button" Content="7" Grid.Row="2" Grid.Column="1" Background="Black" Click="Number_Click"/>
+            <Button x:Name="Num8_Button" Content="8" Grid.Row="2" Grid.Column="2" Background="Black" Click="Number_Click"/>
+            <Button x:Name="Num9_Button" Content="9" Grid.Row="2" Grid.Column="3" Background="Black" Click="Number_Click"/>
+            <Button Content="×" Grid.Row="2" Grid.Column="4" Background="Orange" Click="Operator_Click"/>
+
+            <!-- Fourth Row: Numbers 4-6 -->
+            <Button x:Name="D_Button" Content="D" Grid.Row="3" Grid.Column="0" Background="Black"  Click="Number_Click"/>
+            <Button x:Name="Num4_Button" Content="4" Grid.Row="3"  Background="Black" Grid.Column="1" Click="Number_Click"/>
+            <Button x:Name="Num5_Button" Content="5" Grid.Row="3"  Background="Black" Grid.Column="2" Click="Number_Click"/>
+            <Button x:Name="Num6_Button" Content="6" Grid.Row="3"  Background="Black" Grid.Column="3" Click="Number_Click"/>
+            <Button Content="−" Grid.Row="3" Grid.Column="4" Background="Orange" Click="Operator_Click"/>
+
+            <!-- Fifth Row: Numbers 1-3 -->
+            <Button x:Name="E_Button" Content="E" Grid.Row="4" Grid.Column="0" Background="Black"  Click="Number_Click"/>
+            <Button x:Name="Num1_Button" Content="1" Grid.Row="4"  Background="Black" Grid.Column="1" Click="Number_Click"/>
+            <Button x:Name="Num2_Button" Content="2" Grid.Row="4"  Background="Black" Grid.Column="2" Click="Number_Click"/>
+            <Button x:Name="Num3_Button" Content="3" Grid.Row="4"  Background="Black" Grid.Column="3" Click="Number_Click"/>
+            <Button Content="+" Grid.Row="4" Grid.Column="4" Background="Orange" Click="Operator_Click"/>
+
+            <!-- Sixth Row: Hex Label, +/- button, 0, Decimal, Equals -->
+            <Button x:Name="F_Button" Content="F" Grid.Row="5" Grid.Column="0" Background="Black"  Click="Number_Click"/>
+            <Button Content="+/-" Grid.Row="5" Grid.Column="1" Background="Gray" Click="ToggleSign_Click"/>
+            <Button x:Name="Num0_Button" Content="0" Grid.Row="5" Grid.Column="2"  Background="Black" Click="Number_Click"/>
+            <Button x:Name="Decimal_Button" Content="." Grid.Row="5" Grid.Column="3" Background="Gray" Click="Decimal_Click"/>
+            <Button Content="=" Grid.Row="5" Grid.Column="4" Background="DarkOrange" Click="Equals_Click"/>
+        </Grid>
+
+    </Grid>
+</Window>
